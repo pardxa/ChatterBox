@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="HOSTNAME">hostpc</entry>
+	<entry key="UDPPORT">9999</entry>
+	<entry key="TCPPORT">19999</entry>
+	<entry key="USERLISTSERVICE">com.pardxa.chatbox.model.BroadcastUserListService</entry>
+</properties>
