@@ -26,14 +26,14 @@
             <WebView fx:id="messageView" prefHeight="614.0" prefWidth="783.0" />
             <VBox maxHeight="-Infinity" prefHeight="70.0" prefWidth="100.0" spacing="10.0">
                <children>
-                  <TextField fx:id="textField">
+                  <TextField fx:id="textField" onAction="#OnEnter">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextField>
                   <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#sendMessage" text="Send" />
+                        <Button mnemonicParsing="false" onAction="#OnSend" text="Send" />
                         <Button mnemonicParsing="false" text="Clear" />
                      </children>
                   </HBox>

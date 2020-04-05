@@ -30,14 +30,14 @@ public class UIController {
 		engine.loadContent(MsgRenderer.initPage(""));
 		this.uiViewModel.initUserList();
 		this.uiViewModel.initMessageHandler();
-		this.uiViewModel.setReceivedTextPrinter(receivedMessage->{
-			Platform.runLater(()->{
+		this.uiViewModel.setReceivedTextPrinter(receivedMessage -> {
+			Platform.runLater(() -> {
 				String script = MsgRenderer.receivedMsgScript(receivedMessage);
 				engine.executeScript(script);
 			});
 		});
-		this.uiViewModel.setSendTextPrinter(sendMessage->{
-			Platform.runLater(()->{
+		this.uiViewModel.setSendTextPrinter(sendMessage -> {
+			Platform.runLater(() -> {
 				String script = MsgRenderer.sendMsgScript(sendMessage);
 				engine.executeScript(script);
 			});
@@ -50,7 +50,16 @@ public class UIController {
 	}
 
 	@FXML
-	private void sendMessage(ActionEvent evt) {
+	private void OnSend(ActionEvent evt) {
+		sendMessage();
+	}
+
+	@FXML
+	private void OnEnter(ActionEvent evt) {
+		sendMessage();
+	}
+
+	private void sendMessage() {
 		int idx = listView.getSelectionModel().getSelectedIndex();
 		if (idx > -1) {
 			uiViewModel.sendMessage(idx);

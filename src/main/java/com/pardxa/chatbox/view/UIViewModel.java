@@ -40,9 +40,11 @@ public class UIViewModel {
 
 	public void sendMessage(int selectedIndex) {
 		String message = inputText.get();
-		sendTextPrinter.accept(message);
-		messageExchangeService.sendMessage(itemList.get(selectedIndex).getInetAddress(), message);
-		inputText.set(Constants.EMPTY_STRING);
+		if (!Constants.EMPTY_STRING.equals(message.trim())) {
+			sendTextPrinter.accept(message);
+			messageExchangeService.sendMessage(itemList.get(selectedIndex).getInetAddress(), message);
+			inputText.set(Constants.EMPTY_STRING);
+		}
 	}
 
 	public void initUserList() {
