@@ -14,7 +14,8 @@ public class ViewModelFactory {
 	public UIViewModel createUIViewModel() {
 		if (uiViewModel == null) {
 			uiViewModel = new UIViewModel(modelFactory.createUserListServiceInstance(Constants.USER_LIST_CLASS_NAME),
-					modelFactory.createMessageExchangeService(Constants.MESSAGE_EXCHANGE_CLASS_NAME));
+					modelFactory.createMessageExchangeService(Constants.MESSAGE_EXCHANGE_CLASS_NAME),
+					modelFactory.createMessageCacheService());
 		}
 		return uiViewModel;
 	}

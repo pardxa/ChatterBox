@@ -1,13 +1,16 @@
 package com.pardxa.chatbox.core;
 
 import com.pardxa.chatbox.model.BroadcastUserListService;
+import com.pardxa.chatbox.model.IMessageCacheService;
 import com.pardxa.chatbox.model.IMessageExchangeService;
 import com.pardxa.chatbox.model.IUserListService;
+import com.pardxa.chatbox.model.MessageCacheService;
 import com.pardxa.chatbox.model.MessageExchangeService;
 
 public class ModelFactory {
 	private IUserListService userListService;
 	private IMessageExchangeService messageExchangeService;
+	private IMessageCacheService messageCacheService;
 	private NetworkingFactory networkingFactory;
 
 	public ModelFactory(NetworkingFactory networkingFactory) {
@@ -27,5 +30,12 @@ public class ModelFactory {
 					networkingFactory.createClient());
 		}
 		return messageExchangeService;
+	}
+
+	public IMessageCacheService createMessageCacheService() {
+		if (messageCacheService == null) {
+			messageCacheService = new MessageCacheService();
+		}
+		return messageCacheService;
 	}
 }

@@ -2,10 +2,15 @@ package com.pardxa.chatbox.view;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.util.Queue;
 import java.util.function.Consumer;
 
+import com.pardxa.chatbox.model.IMessageCacheService;
 import com.pardxa.chatbox.model.IMessageExchangeService;
 import com.pardxa.chatbox.model.IUserListService;
+import com.pardxa.chatbox.network.LocalHost;
+import com.pardxa.chatbox.pojo.MsgInfo;
 import com.pardxa.chatbox.pojo.UserInfo;
 import com.pardxa.chatbox.utils.Constants;
 
@@ -18,14 +23,17 @@ import javafx.collections.ObservableList;
 public class UIViewModel {
 	private IUserListService userListService;
 	private IMessageExchangeService messageExchangeService;
+	private IMessageCacheService messageCacheService;
 	private StringProperty inputText;
 	private ObservableList<UserInfo> itemList;
 	private Consumer<String> sendTextPrinter;
 	private Consumer<String> receivedTextPrinter;
 
-	public UIViewModel(IUserListService userListService, IMessageExchangeService messageExchangeService) {
+	public UIViewModel(IUserListService userListService, IMessageExchangeService messageExchangeService,
+			IMessageCacheService messageCacheService) {
 		this.userListService = userListService;
 		this.messageExchangeService = messageExchangeService;
+		this.messageCacheService = messageCacheService;
 		itemList = FXCollections.observableArrayList();
 		inputText = new SimpleStringProperty();
 	}
@@ -42,8 +50,10 @@ public class UIViewModel {
 		String message = inputText.get();
 		if (!Constants.EMPTY_STRING.equals(message.trim())) {
 			sendTextPrinter.accept(message);
-			messageExchangeService.sendMessage(itemList.get(selectedIndex).getInetAddress(), message);
+			InetAddress idxAddress = itemList.get(selectedIndex).getInetAddress();
+			messageExchangeService.sendMessage(idxAddress, message);
 			inputText.set(Constants.EMPTY_STRING);
+			messageCacheService.addSdMsg(LocalHost.getLocalHost(), idxAddress, message);
 		}
 	}
 
@@ -54,10 +64,12 @@ public class UIViewModel {
 				Platform.runLater(() -> {
 					itemList.add(userInfo);
 				});
+				messageCacheService.addUser(userInfo);
 				if (userInfo.getStatus() == UserInfo.statusBroadCast) {
 					userListService.sendRegisterMessage(userInfo.getInetAddress());
 				}
 			} else {
+				messageCacheService.removeUser(userInfo);
 				Platform.runLater(() -> {
 					itemList.removeIf(uif -> (userInfo.getInetAddress().equals(uif.getInetAddress()) ? true : false));
 				});
@@ -79,6 +91,7 @@ public class UIViewModel {
 					int result = buffStream.read(content, 0, content.length);
 					String line = new String(content, 0, result);
 					receivedTextPrinter.accept(line);
+					messageCacheService.addRvMsg(address, line);
 					//
 				}
 				if (token == Constants.CONTENT_TYPE_IMAGE) {
@@ -89,7 +102,9 @@ public class UIViewModel {
 		});
 		messageExchangeService.startServer();
 	}
-
+	public Queue<MsgInfo> getMessageQueue(UserInfo userinfo){
+		return messageCacheService.getMessageQueue(userinfo.getInetAddress());
+	}
 	public void setSendTextPrinter(Consumer<String> sendTextPrinter) {
 		this.sendTextPrinter = sendTextPrinter;
 	}

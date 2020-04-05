@@ -1,5 +1,9 @@
 package com.pardxa.chatbox.view;
 
+import java.util.Arrays;
+import java.util.Queue;
+
+import com.pardxa.chatbox.pojo.MsgInfo;
 import com.pardxa.chatbox.pojo.UserInfo;
 
 import javafx.application.Platform;
@@ -43,6 +47,23 @@ public class UIController {
 			});
 		});
 		this.uiViewModel.getInputText().bindBidirectional(this.textField.textProperty());
+		this.listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			String script = MsgRenderer.cleanScript();
+			engine.executeScript(script);
+			Queue<MsgInfo> messagesInfos = this.uiViewModel.getMessageQueue(newValue);
+			StringBuffer sb = new StringBuffer();
+			messagesInfos.forEach(msg -> {
+				byte[] address = msg.getAddress();
+				byte[] indexAddress = newValue.getInetAddress().getAddress();
+				if (Arrays.equals(address, indexAddress)) {
+					sb.append(MsgRenderer.renderReceivedMsg(msg.getMessage()));
+				} else {
+					sb.append(MsgRenderer.renderSendMsg(msg.getMessage()));
+				}
+			});
+			String newScript = MsgRenderer.appendScript(sb.toString());
+			engine.executeScript(newScript);
+		});
 	}
 
 	public void stop() {

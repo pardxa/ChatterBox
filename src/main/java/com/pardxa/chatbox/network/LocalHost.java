@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -43,5 +44,15 @@ public class LocalHost {
 			e.printStackTrace();
 		}
 		return interfaces;
+	}
+
+	public static InetAddress getLocalHost() {
+		InetAddress localhost = null;
+		try {
+			localhost = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return localhost;
 	}
 }

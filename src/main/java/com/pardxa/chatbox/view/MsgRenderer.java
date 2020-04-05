@@ -14,7 +14,10 @@ public class MsgRenderer {
 		sb.append("';");
 		return sb.toString();
 	}
-
+	public static String cleanScript() {
+		StringBuffer sb = new StringBuffer("document.getElementById('textArea').innerHTML='';");
+		return sb.toString();
+	}
 	public static String receivedMsgScript(String msg) {
 		return appendScript(renderReceivedMsg(msg.replaceAll("'", "\\\\'")));
 	}
@@ -23,7 +26,7 @@ public class MsgRenderer {
 		return appendScript(renderSendMsg(msg.replaceAll("'", "\\\\'")));
 	}
 
-	private static String renderReceivedMsg(String msg) {
+	public static String renderReceivedMsg(String msg) {
 		StringBuffer sb = new StringBuffer(
 				"<p style=\"color:white;font-size:20px; background: #00768a;border-radius: 8px;margin-right:40%\">");
 		sb.append(msg);
@@ -31,7 +34,7 @@ public class MsgRenderer {
 		return sb.toString();
 	}
 
-	private static String renderSendMsg(String msg) {
+	public static String renderSendMsg(String msg) {
 		StringBuffer sb = new StringBuffer(
 				"<p style=\"text-align: left;background: #e9e9e9;font-size:20px; border-radius: 8px;margin-left:40%\">");
 		sb.append(msg);

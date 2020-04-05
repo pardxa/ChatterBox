@@ -31,7 +31,7 @@ public class Udp {
 		}
 		if (!"EOF".equals(message)) {
 			UserInfo userInfo = new UserInfo(new Gson().fromJson(message, UserInfo.class).getUserName());
-			userInfo.setInetAddress(InetAddress.getLocalHost());
+			userInfo.setInetAddress(LocalHost.getLocalHost());
 			support.firePropertyChange("", null, userInfo);
 		}
 	}
