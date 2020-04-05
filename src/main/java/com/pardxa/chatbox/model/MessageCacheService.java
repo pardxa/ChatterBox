@@ -1,5 +1,11 @@
 package com.pardxa.chatbox.model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +15,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.pardxa.chatbox.pojo.MsgInfo;
 import com.pardxa.chatbox.pojo.UserInfo;
+import com.pardxa.chatbox.utils.Constants;
 
 public class MessageCacheService implements IMessageCacheService {
 	private Map<InetAddress, Queue<MsgInfo>> cache = new HashMap<InetAddress, Queue<MsgInfo>>();
@@ -43,6 +50,42 @@ public class MessageCacheService implements IMessageCacheService {
 	@Override
 	public Queue<MsgInfo> getMessageQueue(InetAddress idxAddress) {
 		return cache.get(idxAddress);
+	}
+
+	@Override
+	public void serialize() {
+		try {
+			File file = new File(Constants.CACHE_FILE);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			FileOutputStream fouts = new FileOutputStream(file);
+			ObjectOutputStream objOuts = new ObjectOutputStream(fouts);
+			objOuts.writeObject(cache);
+			objOuts.flush();
+			objOuts.close();
+			fouts.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void deserialzie() {
+		try {
+			File file = new File(Constants.CACHE_FILE);
+			if (file.exists()) {
+				FileInputStream fins = new FileInputStream(file);
+				ObjectInputStream objIns = new ObjectInputStream(fins);
+				cache = (Map<InetAddress, Queue<MsgInfo>>) objIns.readObject();
+				objIns.close();
+				fins.close();
+			}
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

@@ -12,12 +12,15 @@ public class MsgRenderer {
 		StringBuffer sb = new StringBuffer("document.getElementById('textArea').innerHTML+='");
 		sb.append(msg);
 		sb.append("';");
+		sb.append("window.scrollTo(0, document.body.scrollHeight);");
 		return sb.toString();
 	}
+
 	public static String cleanScript() {
 		StringBuffer sb = new StringBuffer("document.getElementById('textArea').innerHTML='';");
 		return sb.toString();
 	}
+
 	public static String receivedMsgScript(String msg) {
 		return appendScript(renderReceivedMsg(msg.replaceAll("'", "\\\\'")));
 	}

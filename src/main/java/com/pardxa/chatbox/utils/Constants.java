@@ -11,4 +11,5 @@ public class Constants {
 	public final static String USER_LIST_CLASS_NAME = PropertyLoader.load("USERLISTSERVICE");
 	public final static String MESSAGE_EXCHANGE_CLASS_NAME = "com.pardxa.chatbox.model.MessageExchangeService";
 	public final static String EMPTY_STRING = "";
+	public final static String CACHE_FILE = "chatbox.cache";
 }

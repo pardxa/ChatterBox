@@ -16,4 +16,8 @@ public interface IMessageCacheService {
 	void addSdMsg(InetAddress srcAddress, InetAddress idxAddress, String message);
 
 	Queue<MsgInfo> getMessageQueue(InetAddress idxAddress);
+
+	void serialize();
+
+	void deserialzie();
 }

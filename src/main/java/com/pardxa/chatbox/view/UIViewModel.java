@@ -101,6 +101,7 @@ public class UIViewModel {
 			}
 		});
 		messageExchangeService.startServer();
+		messageCacheService.deserialzie();
 	}
 	public Queue<MsgInfo> getMessageQueue(UserInfo userinfo){
 		return messageCacheService.getMessageQueue(userinfo.getInetAddress());
@@ -116,5 +117,6 @@ public class UIViewModel {
 	public void stop() {
 		userListService.shutdown();
 		messageExchangeService.shutdown();
+		messageCacheService.serialize();
 	}
 }
