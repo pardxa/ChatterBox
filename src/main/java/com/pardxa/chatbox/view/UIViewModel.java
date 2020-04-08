@@ -15,6 +15,8 @@ import com.pardxa.chatbox.pojo.UserInfo;
 import com.pardxa.chatbox.utils.Constants;
 
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -28,6 +30,7 @@ public class UIViewModel {
 	private ObservableList<UserInfo> itemList;
 	private Consumer<String> sendTextPrinter;
 	private Consumer<String> receivedTextPrinter;
+	private IntegerProperty currentUserIdx;
 
 	public UIViewModel(IUserListService userListService, IMessageExchangeService messageExchangeService,
 			IMessageCacheService messageCacheService) {
@@ -36,14 +39,19 @@ public class UIViewModel {
 		this.messageCacheService = messageCacheService;
 		itemList = FXCollections.observableArrayList();
 		inputText = new SimpleStringProperty();
+		currentUserIdx = new SimpleIntegerProperty();
 	}
 
 	public ObservableList<UserInfo> itemListProperty() {
 		return itemList;
 	}
 
-	public StringProperty getInputText() {
+	public StringProperty inputTextProperty() {
 		return inputText;
+	}
+
+	public IntegerProperty currentUserIdxProperty() {
+		return currentUserIdx;
 	}
 
 	public void sendMessage(int selectedIndex) {
@@ -90,7 +98,12 @@ public class UIViewModel {
 					byte[] content = new byte[2048];
 					int result = buffStream.read(content, 0, content.length);
 					String line = new String(content, 0, result);
-					receivedTextPrinter.accept(line);
+					int SelectedIdx = currentUserIdx.get();
+					if (SelectedIdx > -1) {
+						if (itemList.get(SelectedIdx).getInetAddress().equals(address)) {
+							receivedTextPrinter.accept(line);
+						}
+					}
 					messageCacheService.addRvMsg(address, line);
 					//
 				}
@@ -103,9 +116,11 @@ public class UIViewModel {
 		messageExchangeService.startServer();
 		messageCacheService.deserialzie();
 	}
-	public Queue<MsgInfo> getMessageQueue(UserInfo userinfo){
+
+	public Queue<MsgInfo> getMessageQueue(UserInfo userinfo) {
 		return messageCacheService.getMessageQueue(userinfo.getInetAddress());
 	}
+
 	public void setSendTextPrinter(Consumer<String> sendTextPrinter) {
 		this.sendTextPrinter = sendTextPrinter;
 	}

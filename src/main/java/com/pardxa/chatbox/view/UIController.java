@@ -48,11 +48,13 @@ public class UIController implements IStageAware {
 				engine.executeScript(script);
 			});
 		});
-		this.uiViewModel.getInputText().bindBidirectional(this.textField.textProperty());
+		this.uiViewModel.inputTextProperty().bindBidirectional(this.textField.textProperty());
 		this.listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			appendMessage(newValue);
 			setStageTitle();
 		});
+
+		this.uiViewModel.currentUserIdxProperty().bind(listView.getSelectionModel().selectedIndexProperty());
 	}
 
 	public void stop() {

@@ -17,9 +17,7 @@ public class Server extends AbstractAction {
 			server = new ServerSocket(Constants.TCP_PORT);
 			while (!stopLoop) {
 				Socket socket = server.accept();
-				System.out.println("in server" + Thread.currentThread().getName());
 				new Thread(() -> {
-					System.out.println("in IO" + Thread.currentThread().getName());
 					this.receive(socket, messageHandler);
 				}).start();
 			}
