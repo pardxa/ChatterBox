@@ -2,6 +2,7 @@ package com.pardxa.chatbox.core;
 
 import java.io.IOException;
 
+import com.pardxa.chatbox.view.IStageAware;
 import com.pardxa.chatbox.view.UIController;
 
 import javafx.fxml.FXMLLoader;
@@ -25,8 +26,11 @@ public class ViewHandler {
 			e.printStackTrace();
 		}
 		uiController = fxmlLoader.getController();
+		if (uiController instanceof IStageAware) {
+			uiController.setStage(stage);
+		}
 		uiController.init(viewModelFactory.createUIViewModel());
-		stage.setOnHidden(event->{
+		stage.setOnHidden(event -> {
 			uiController.stop();
 		});
 		stage.setScene(scene);

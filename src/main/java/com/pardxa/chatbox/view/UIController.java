@@ -14,14 +14,16 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
-public class UIController {
+public class UIController implements IStageAware {
 	@FXML
 	private ListView<UserInfo> listView;
 	@FXML
 	private WebView messageView;
 	@FXML
 	private TextField textField;
+	private Stage stage;
 	private UIViewModel uiViewModel;
 	private WebEngine engine;
 
@@ -48,21 +50,8 @@ public class UIController {
 		});
 		this.uiViewModel.getInputText().bindBidirectional(this.textField.textProperty());
 		this.listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			String script = MsgRenderer.cleanScript();
-			engine.executeScript(script);
-			Queue<MsgInfo> messagesInfos = this.uiViewModel.getMessageQueue(newValue);
-			StringBuffer sb = new StringBuffer();
-			messagesInfos.forEach(msg -> {
-				byte[] address = msg.getAddress();
-				byte[] indexAddress = newValue.getInetAddress().getAddress();
-				if (Arrays.equals(address, indexAddress)) {
-					sb.append(MsgRenderer.renderReceivedMsg(msg.getMessage()));
-				} else {
-					sb.append(MsgRenderer.renderSendMsg(msg.getMessage()));
-				}
-			});
-			String newScript = MsgRenderer.appendScript(sb.toString());
-			engine.executeScript(newScript);
+			appendMessage(newValue);
+			setStageTitle();
 		});
 	}
 
@@ -88,12 +77,43 @@ public class UIController {
 	}
 
 	public void initialize() {
+		/**
+		 * listView.setCellFactory(new
+		 * Callback<ListView<UserInfo>,ListCell<UserInfo>>(){
+		 * 
+		 * @Override public ListCell<UserInfo> call(ListView<UserInfo> param) { return
+		 *           new UserInfoCell(); } });
+		 */
+	}
 
-//		listView.setCellFactory(new Callback<ListView<UserInfo>,ListCell<UserInfo>>(){
-//			@Override
-//			public ListCell<UserInfo> call(ListView<UserInfo> param) {
-//				return new UserInfoCell();
-//			}			
-//		});
+	@Override
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
+
+	private void appendMessage(UserInfo userInfo) {
+		String script = MsgRenderer.cleanScript();
+		engine.executeScript(script);
+		Queue<MsgInfo> messagesInfos = this.uiViewModel.getMessageQueue(userInfo);
+		StringBuffer sb = new StringBuffer();
+		messagesInfos.forEach(msg -> {
+			byte[] address = msg.getAddress();
+			byte[] indexAddress = userInfo.getInetAddress().getAddress();
+			if (Arrays.equals(address, indexAddress)) {
+				sb.append(MsgRenderer.renderReceivedMsg(msg.getMessage()));
+			} else {
+				sb.append(MsgRenderer.renderSendMsg(msg.getMessage()));
+			}
+		});
+		String newScript = MsgRenderer.appendScript(sb.toString());
+		engine.executeScript(newScript);
+	}
+
+	private void setStageTitle() {
+		UserInfo user = listView.getSelectionModel().getSelectedItem();
+		StringBuffer title = new StringBuffer(user.getUserName());
+		title.append(":");
+		title.append(user.getInetAddress().getHostAddress());
+		stage.setTitle(title.toString());
 	}
 }
