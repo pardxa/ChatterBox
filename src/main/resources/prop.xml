@@ -5,4 +5,5 @@
 	<entry key="UDPPORT">9999</entry>
 	<entry key="TCPPORT">19999</entry>
 	<entry key="USERLISTSERVICE">com.pardxa.chatbox.model.BroadcastUserListService</entry>
+	<entry key="CONNECTIVITYTEST">50</entry>
 </properties>

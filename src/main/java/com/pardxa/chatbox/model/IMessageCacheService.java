@@ -4,12 +4,11 @@ import java.net.InetAddress;
 import java.util.Queue;
 
 import com.pardxa.chatbox.pojo.MsgInfo;
-import com.pardxa.chatbox.pojo.UserInfo;
 
 public interface IMessageCacheService {
-	void addUser(UserInfo user);
+	void addUser(InetAddress address);
 
-	void removeUser(UserInfo user);
+	void removeUser(InetAddress address);
 
 	void addRvMsg(InetAddress idxAddress, String message);
 

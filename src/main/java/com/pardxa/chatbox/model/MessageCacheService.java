@@ -14,25 +14,24 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.pardxa.chatbox.pojo.MsgInfo;
-import com.pardxa.chatbox.pojo.UserInfo;
 import com.pardxa.chatbox.utils.Constants;
 
 public class MessageCacheService implements IMessageCacheService {
 	private Map<InetAddress, Queue<MsgInfo>> cache = new HashMap<InetAddress, Queue<MsgInfo>>();
 
 	@Override
-	public void addUser(UserInfo user) {
-		if (!cache.keySet().contains(user.getInetAddress())) {
+	public void addUser(InetAddress address) {
+		if (!cache.keySet().contains(address)) {
 			// Should add "read from Disk cache"
 			Queue<MsgInfo> msgQueue = new ConcurrentLinkedQueue<MsgInfo>();
-			cache.put(user.getInetAddress(), msgQueue);
+			cache.put(address, msgQueue);
 		}
 	}
 
 	@Override
-	public void removeUser(UserInfo user) {
+	public void removeUser(InetAddress address) {
 		// Should add "save to Disk cache"
-		cache.remove(user.getInetAddress());
+		cache.remove(address);
 	}
 
 	@Override
@@ -44,7 +43,9 @@ public class MessageCacheService implements IMessageCacheService {
 	@Override
 	public void addSdMsg(InetAddress srcAddress, InetAddress idxAddress, String message) {
 		Queue<MsgInfo> msgQueue = cache.get(idxAddress);
-		msgQueue.add(new MsgInfo(message, new Date().getTime(), srcAddress.getAddress()));
+		if(msgQueue!=null) {
+			msgQueue.add(new MsgInfo(message, new Date().getTime(), srcAddress.getAddress()));
+		}		
 	}
 
 	@Override

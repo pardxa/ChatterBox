@@ -72,15 +72,12 @@ public class UIViewModel {
 				Platform.runLater(() -> {
 					itemList.add(userInfo);
 				});
-				messageCacheService.addUser(userInfo);
+				messageCacheService.addUser(userInfo.getInetAddress());
 				if (userInfo.getStatus() == UserInfo.statusBroadCast) {
 					userListService.sendRegisterMessage(userInfo.getInetAddress());
 				}
 			} else {
-				messageCacheService.removeUser(userInfo);
-				Platform.runLater(() -> {
-					itemList.removeIf(uif -> (userInfo.getInetAddress().equals(uif.getInetAddress()) ? true : false));
-				});
+				removeUserFromViewList(userInfo.getInetAddress());
 			}
 		});
 		userListService.startServer();
@@ -89,7 +86,6 @@ public class UIViewModel {
 
 	public void initMessageHandler() {
 		messageExchangeService.setMessageHandler((inputStream, address) -> {
-
 			try {
 				BufferedInputStream buffStream = (BufferedInputStream) inputStream;
 				int token = buffStream.read();
@@ -113,6 +109,12 @@ public class UIViewModel {
 				e.printStackTrace();
 			}
 		});
+		messageExchangeService.addClientPropertyChangeListener(event -> {
+			if (event.getPropertyName().equals(Constants.CONNECT_REFUSED)) {
+				InetAddress address = (InetAddress) event.getNewValue();
+				removeUserFromViewList(address);
+			}
+		});
 		messageExchangeService.startServer();
 		messageCacheService.deserialzie();
 	}
@@ -133,5 +135,13 @@ public class UIViewModel {
 		userListService.shutdown();
 		messageExchangeService.shutdown();
 		messageCacheService.serialize();
+	}
+
+	private void removeUserFromViewList(InetAddress address) {
+		messageCacheService.removeUser(address);
+		Platform.runLater(() -> {
+			itemList.removeIf(uif -> (address.equals(uif.getInetAddress()) ? true : false));
+		});
+		this.receivedTextPrinter.accept(Constants.EMPTY_STRING);
 	}
 }

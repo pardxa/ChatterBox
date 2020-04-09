@@ -1,5 +1,6 @@
 package com.pardxa.chatbox.model;
 
+import java.beans.PropertyChangeListener;
 import java.net.InetAddress;
 import java.util.Set;
 
@@ -45,5 +46,9 @@ public class MessageExchangeService implements IMessageExchangeService {
 	public void shutdown() {
 		SocketHolder.getInstance().clearAllSockets();
 		server.stopServer();
+	}
+
+	public void addClientPropertyChangeListener(PropertyChangeListener listener) {
+		client.addPropertyChangeListener(listener);
 	}
 }
