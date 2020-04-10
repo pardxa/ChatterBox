@@ -2,8 +2,15 @@ package com.pardxa.chatbox.view;
 
 public class MsgRenderer {
   public static String initPage(String msg) {
-    StringBuffer sb =
-        new StringBuffer("<!DOCTYPE html><html><head></head><body><div id='textArea'>");
+    StringBuffer sb = new StringBuffer("<!DOCTYPE html><html><head>");
+    sb.append("<style>");
+    sb.append("p{");
+    sb.append("font-size:20px;");
+    sb.append("border-radius: 8px;");
+    sb.append("padding: 10px");
+    sb.append("}");
+    sb.append("</style>");
+    sb.append("</head><body><div id='textArea'>");
     sb.append(msg);
     sb.append("</div></body></html>");
     return sb.toString();
@@ -31,18 +38,16 @@ public class MsgRenderer {
   }
 
   public static String renderReceivedMsg(String msg) {
-    StringBuffer sb = new StringBuffer("<p style=\"font-size:20px;");
-    sb.append("color:white;background: #00768a;");
-    sb.append("border-radius: 8px;margin-right:40%\">");
+    StringBuffer sb =
+        new StringBuffer("<p style=\"color:white;background: #00768a;margin-right:40%\">");
     sb.append(msg);
     sb.append("</p>");
     return sb.toString();
   }
 
   public static String renderSendMsg(String msg) {
-    StringBuffer sb = new StringBuffer("<p style=\"font-size:20px;");
-    sb.append("background: #e9e9e9;");
-    sb.append("text-align: left; border-radius: 8px;margin-left:40%\">");
+    StringBuffer sb =
+        new StringBuffer("<p style=\"background: #e9e9e9;text-align: left;margin-left:40%\">");
     sb.append(msg);
     sb.append("</p>");
     return sb.toString();
