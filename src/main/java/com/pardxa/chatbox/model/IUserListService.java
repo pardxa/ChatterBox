@@ -5,12 +5,12 @@ import java.net.InetAddress;
 
 public interface IUserListService extends INetworkService {
 
-	void sendOnlineMessage();
+  void sendOnlineMessage();
 
-	void sendRegisterMessage(InetAddress destAddress);
+  void sendRegisterMessage(InetAddress destAddress);
 
-	public void addPropertyChangeListener(PropertyChangeListener listener);
+  public void addPropertyChangeListener(PropertyChangeListener listener);
 
-	public void removePropertyChangeListener(PropertyChangeListener listener);
+  public void removePropertyChangeListener(PropertyChangeListener listener);
 
 }
