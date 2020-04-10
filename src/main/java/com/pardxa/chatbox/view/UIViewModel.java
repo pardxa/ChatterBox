@@ -1,10 +1,5 @@
 package com.pardxa.chatbox.view;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.Queue;
-import java.util.function.Consumer;
 import com.pardxa.chatbox.model.IMessageCacheService;
 import com.pardxa.chatbox.model.IMessageExchangeService;
 import com.pardxa.chatbox.model.IUserListService;
@@ -12,6 +7,11 @@ import com.pardxa.chatbox.network.LocalHost;
 import com.pardxa.chatbox.pojo.MsgInfo;
 import com.pardxa.chatbox.pojo.UserInfo;
 import com.pardxa.chatbox.utils.Constants;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.util.Queue;
+import java.util.function.Consumer;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

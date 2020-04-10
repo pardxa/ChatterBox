@@ -1,7 +1,7 @@
 package com.pardxa.chatbox.model;
 
-import java.net.InetAddress;
 import com.pardxa.chatbox.pojo.MsgInfo;
+import java.net.InetAddress;
 import java.util.Queue;
 
 

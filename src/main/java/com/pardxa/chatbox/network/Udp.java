@@ -1,5 +1,8 @@
 package com.pardxa.chatbox.network;
 
+import com.google.gson.Gson;
+import com.pardxa.chatbox.pojo.UserInfo;
+import com.pardxa.chatbox.utils.Constants;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
@@ -8,9 +11,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.List;
 import java.util.Set;
-import com.google.gson.Gson;
-import com.pardxa.chatbox.pojo.UserInfo;
-import com.pardxa.chatbox.utils.Constants;
+
 
 public class Udp {
 

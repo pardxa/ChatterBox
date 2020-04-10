@@ -1,10 +1,10 @@
 package com.pardxa.chatbox.network;
 
+import com.pardxa.chatbox.utils.Constants;
+import com.pardxa.chatbox.utils.IMessageHandler;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import com.pardxa.chatbox.utils.Constants;
-import com.pardxa.chatbox.utils.IMessageHandler;
 
 public class Server extends AbstractAction {
 

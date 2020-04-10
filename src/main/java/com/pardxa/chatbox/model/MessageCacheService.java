@@ -1,5 +1,7 @@
 package com.pardxa.chatbox.model;
 
+import com.pardxa.chatbox.pojo.MsgInfo;
+import com.pardxa.chatbox.utils.Constants;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -11,8 +13,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
-import com.pardxa.chatbox.pojo.MsgInfo;
-import com.pardxa.chatbox.utils.Constants;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MessageCacheService implements IMessageCacheService {

@@ -1,10 +1,11 @@
 package com.pardxa.chatbox.network;
 
+import com.pardxa.chatbox.utils.IMessageHandler;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
-import com.pardxa.chatbox.utils.IMessageHandler;
+
 
 public abstract class AbstractAction {
   public static volatile boolean stopLoop = false;

@@ -1,14 +1,14 @@
 package com.pardxa.chatbox.model;
 
-import java.beans.PropertyChangeListener;
-import java.net.InetAddress;
-import java.util.Set;
 import com.pardxa.chatbox.network.Client;
 import com.pardxa.chatbox.network.LocalHost;
 import com.pardxa.chatbox.network.Server;
 import com.pardxa.chatbox.network.SocketHolder;
 import com.pardxa.chatbox.utils.Constants;
 import com.pardxa.chatbox.utils.IMessageHandler;
+import java.beans.PropertyChangeListener;
+import java.net.InetAddress;
+import java.util.Set;
 
 public class MessageExchangeService implements IMessageExchangeService {
 

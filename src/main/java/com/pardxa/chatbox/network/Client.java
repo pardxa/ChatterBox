@@ -1,5 +1,6 @@
 package com.pardxa.chatbox.network;
 
+import com.pardxa.chatbox.utils.Constants;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
@@ -7,7 +8,6 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
-import com.pardxa.chatbox.utils.Constants;
 
 public class Client extends AbstractAction {
   protected PropertyChangeSupport support;

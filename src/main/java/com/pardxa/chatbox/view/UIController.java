@@ -1,9 +1,9 @@
 package com.pardxa.chatbox.view;
 
-import java.util.Arrays;
-import java.util.Queue;
 import com.pardxa.chatbox.pojo.MsgInfo;
 import com.pardxa.chatbox.pojo.UserInfo;
+import java.util.Arrays;
+import java.util.Queue;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
